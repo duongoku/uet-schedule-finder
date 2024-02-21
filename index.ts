@@ -53,16 +53,17 @@ async function getClassList(termId: string, studentId: string) {
 
 async function getSchedule(termId: string, studentId: string, simple: boolean = false) {
     let classList = await getClassList(termId, studentId);
-    let response = await fetch("http://112.137.129.115/tkb/listbylist.php", {
-        "headers": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-            "Accept-Language": "en-US",
-            "Upgrade-Insecure-Requests": "1"
-        },
-        "referrer": "http://112.137.129.115/tkb/index.php",
-        "method": "GET"
-    });
+    let response =
+        await fetch("http://112.137.129.115/tkb/listbylist.php", {
+            "headers": {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "Accept-Language": "en-US",
+                "Upgrade-Insecure-Requests": "1"
+            },
+            "method": "GET",
+        });
+    // console.log(await response.text());
     const $ = cheerio.load(await response.text());
     let classes = cheerio.load($("tbody")[3])("tr").toArray().filter((row) => {
         let cells = cheerio.load(row)("td");
